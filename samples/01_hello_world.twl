@@ -1,0 +1,18 @@
+// Twilight Programming Language
+
+global print from 'twilight/core'
+
+class main {
+
+    // Classic Entry
+    helloWorld {
+        print "Hello world"
+    }
+
+}
+
+
+
+
+
+
