@@ -1,0 +1,24 @@
+// Twilight Programming Language
+
+module Fib (
+
+  global print from 'twilight/core'
+  global to_string from 'twilight/core'
+
+  class Main (
+
+    // Classic Entry
+    def helloWorld:
+      print to_string this.fib(40)
+
+    def fib(x:Number):
+      when: (
+        x < 3:  1
+         else:  fib(x - 1) + fib(x-2)
+      )
+
+  )
+)
+
+
+
