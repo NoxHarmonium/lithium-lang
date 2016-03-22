@@ -1,15 +1,14 @@
-// Twilight Programming Language
+# Twilight Programming Language
 
 module Fib (
 
-  global print from 'twilight/core'
-  global to_string from 'twilight/core'
+  import print from "twilight/core"
+  import to_string from "twilight/core"
 
   class Main (
 
-    // Classic Entry
-    def helloWorld:
-      print to_string this.fib(40)
+    def main():
+      print(to_string(this.fib(40)))
 
     def fib(x:Number):
       when: (
@@ -18,7 +17,4 @@ module Fib (
       )
 
   )
-)
-
-
-
+);

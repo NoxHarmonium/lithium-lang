@@ -1,6 +1,7 @@
 module Syntax where
 
 type Name = String
+type Path = String
 
 
 data Expr
@@ -10,13 +11,14 @@ data Expr
   | Var Name
   | VarDef Name Name
   | Call Name [Expr]
+  | MethodCall Name [Expr]
   | Function Name [Expr] Expr
   | Module Name [Expr]
   | Class Name [Expr]
-  | Import Name Name
-  | Global Name
+  | Import Name Path
   | Extern Name [Expr]
   | When [Expr]
+  | Else
   | Clause Expr Expr
   deriving (Eq, Ord, Show)
 

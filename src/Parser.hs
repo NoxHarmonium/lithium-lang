@@ -78,6 +78,11 @@ modul = do
   body <- parens $ many expr
   return $ Module name body
 
+els :: Parser Expr
+els = do
+    reserved "else"
+    return $ Else
+
 clas :: Parser Expr
 clas = do
   reserved "class"
@@ -89,9 +94,9 @@ impor :: Parser Expr
 impor = do
   reserved "import"
   name <- identifier
-  from <- identifier
-  source <- identifier
-  return $ Import name source
+  reserved "from"
+  path <- stringLiteral
+  return $ Import name path
 
 extern :: Parser Expr
 extern = do
@@ -106,14 +111,25 @@ call = do
   args <- parens $ commaSep expr
   return $ Call name args
 
+methodCall :: Parser Expr
+methodCall = do
+  reserved "this"
+  dot <- dot
+  name <- identifier
+  args <- parens $ commaSep expr
+  return $ MethodCall name args
+
 factor :: Parser Expr
 factor = try floating
       <|> try int
+      <|> try impor
       <|> try extern
       <|> try function
       <|> try when
+      <|> try els
       <|> try modul
       <|> try clas
+      <|> try methodCall
       <|> try call
       <|> variable
       <|> parens expr

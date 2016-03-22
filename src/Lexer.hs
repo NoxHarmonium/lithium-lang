@@ -9,7 +9,7 @@ lexer :: Tok.TokenParser ()
 lexer = Tok.makeTokenParser style
   where
     ops = ["+","*","-",";","==","!=",">","<",">=","<="]
-    names = ["def", "class", "when", "module", "global"]
+    names = ["def", "class", "when", "module", "import", "from", "this", "else"]
     style = emptyDef {
                Tok.commentLine = "#"
              , Tok.reservedOpNames = ops
@@ -26,6 +26,9 @@ float = Tok.float lexer
 colon :: Parser String
 colon = Tok.colon lexer
 
+dot :: Parser String
+dot = Tok.dot lexer
+
 parens :: Parser a -> Parser a
 parens = Tok.parens lexer
 
@@ -37,6 +40,9 @@ semiSep = Tok.semiSep lexer
 
 identifier :: Parser String
 identifier = Tok.identifier lexer
+
+stringLiteral :: Parser String
+stringLiteral = Tok.stringLiteral lexer
 
 reserved :: String -> Parser ()
 reserved = Tok.reserved lexer
