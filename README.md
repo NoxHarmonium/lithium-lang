@@ -1,8 +1,8 @@
-Twilight
+Lithium
 ========
 
-Programming Language and Runtime
---------------------------------
+A Highly Reactive Programming Language and Runtime
+--------------------------------------------------
 
 This isn't really a thing,
 it is just me experimenting

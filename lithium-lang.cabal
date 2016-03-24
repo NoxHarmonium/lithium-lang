@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 -- The name of the package.
-name:                twilight
+name:                lithium-lang
 
 -- The package version.  See the Haskell package versioning policy (PVP)
 -- for standards guiding when and how versions should be incremented.
@@ -19,7 +19,7 @@ synopsis:            An experimental attempt at making my own programming langua
 -- description:
 
 -- URL for the project homepage or repository.
-homepage:            https://github.com/NoxHarmonium/twilight
+homepage:            https://github.com/NoxHarmonium/lithium-lang
 
 -- The license under which the package is released.
 license:             MIT
