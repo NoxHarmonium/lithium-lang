@@ -18,3 +18,5 @@ If it actually did evolve into a full language the goals might be something like
 - Stict depedency injection as part of the langauge
 - Compiled rather than intepreted and no VM so it can run on iOS which disallows things like JITing.
 
+As I work through existing languages for insperation and ideas I will add notes [here](doc/insperation.md).
+
