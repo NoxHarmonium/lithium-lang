@@ -2,6 +2,7 @@ module Parser where
 
 import Text.Parsec
 import Text.Parsec.String (Parser)
+import Control.Applicative ((<$>))
 
 import qualified Text.Parsec.Expr as Ex
 import qualified Text.Parsec.Token as Tok
@@ -9,32 +10,29 @@ import qualified Text.Parsec.Token as Tok
 import Lexer
 import Syntax
 
-binary s f assoc = Ex.Infix (reservedOp s >> return (BinOp f)) assoc
-binaryComp s f assoc = Ex.Infix (reservedOp s >> return (BinComp f)) assoc
-
-table = [[binary "*" Times Ex.AssocLeft,
-          binary "/" Divide Ex.AssocLeft]
-        ,[binary "+" Plus Ex.AssocLeft,
-          binary "-" Minus Ex.AssocLeft]
-        ,[binaryComp "==" Equal Ex.AssocLeft,
-          binaryComp "!=" NotEqual Ex.AssocLeft]
-        ,[binaryComp ">" GreaterThan Ex.AssocLeft,
-          binaryComp "<" LessThan Ex.AssocLeft]
-        ,[binaryComp ">=" EqualToOrGreaterThan Ex.AssocLeft,
-          binaryComp "<=" EqualToOrGreaterLess Ex.AssocLeft]]
-
 int :: Parser Expr
 int = do
   n <- integer
   return $ Float (fromInteger n)
 
 floating :: Parser Expr
-floating = do
-  n <- float
-  return $ Float n
+floating = Float <$> float
+
+binary s assoc = Ex.Infix (reservedOp s >> return (BinaryOp s)) assoc
+
+binops = [[binary "*" Ex.AssocLeft,
+          binary "/" Ex.AssocLeft]
+        ,[binary "+" Ex.AssocLeft,
+          binary "-" Ex.AssocLeft]
+        ,[binary "==" Ex.AssocLeft,
+          binary "!=" Ex.AssocLeft]
+        ,[binary ">" Ex.AssocLeft,
+          binary "<" Ex.AssocLeft]
+        ,[binary ">=" Ex.AssocLeft,
+          binary "<=" Ex.AssocLeft]]
 
 expr :: Parser Expr
-expr = Ex.buildExpressionParser table factor
+expr =  Ex.buildExpressionParser binops factor
 
 variable :: Parser Expr
 variable = do
@@ -102,7 +100,7 @@ extern :: Parser Expr
 extern = do
   reserved "extern"
   name <- identifier
-  args <- parens $ many variable
+  args <- parens $ many variableDef
   return $ Extern name args
 
 call :: Parser Expr
@@ -132,7 +130,7 @@ factor = try floating
       <|> try methodCall
       <|> try call
       <|> variable
-      <|> parens expr
+      <|> (parens expr)
 
 defn :: Parser Expr
 defn = try extern

@@ -3,12 +3,8 @@
 module Fib (
 
   import print from "twilight/core"
-  import to_string from "twilight/core"
 
   class Main (
-
-    def main():
-      print(to_string(this.fib(40)))
 
     def fib(x:Number):
       when: (
