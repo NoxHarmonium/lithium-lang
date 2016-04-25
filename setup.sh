@@ -7,3 +7,5 @@ brew tap homebrew/versions
 brew install llvm35
 cabal sandbox init
 cabal install --only-dependencies
+cabal update
+cabal build
