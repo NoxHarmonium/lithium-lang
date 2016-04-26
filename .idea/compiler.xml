@@ -20,8 +20,9 @@
     </annotationProcessing>
   </component>
   <component name="HaskellBuildOptions">
-    <ghcPath>/usr/local/bin/ghc</ghcPath>
     <cabalPath>/usr/local/bin/cabal</cabalPath>
+    <useStack>true</useStack>
     <stackPath>/usr/local/bin/stack</stackPath>
+    <stackFile>$PROJECT_DIR$/stack.yaml</stackFile>
   </component>
 </project>

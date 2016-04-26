@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/lithium-lang.iml" filepath="$PROJECT_DIR$/.idea/lithium-lang.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lithium-lang.iml" filepath="$PROJECT_DIR$/lithium-lang.iml" />
     </modules>
   </component>
 </project>
