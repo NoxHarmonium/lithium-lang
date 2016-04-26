@@ -69,6 +69,7 @@ executable llc
     , mtl                  >= 2.1.3
     , transformers         >= 0.3.0.0 && < 0.5
     , containers           >= 0.4
+    , hlint                >= 1.9
 
   -- Directories containing source files.
   hs-source-dirs:      src
