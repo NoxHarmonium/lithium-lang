@@ -102,23 +102,23 @@ cgen (S.Float n) = return $ cons $ C.Float (F.Double n)
 cgen (S.Call fn args) = do
   largs <- mapM cgen args
   call (externf (AST.Name fn)) largs
-cgen (S.When clauses) = do
-    foldM handleClause (head clauses) (tail clauses)
-
-handleClause :: S.Expr -> Codegen AST.Operand
-handleClause (S.Clause cond code) = do
-    caseBlock <- addBlock "case.block"
-    exitBlock <- addBlock "case.exit"
-
-    cond <- cgen cond
-    test <- fcmp FP.ONE false cond
-    cbr test caseBlock exitBlock
-
-    setBlock caseBlock
-    trval <- cgen code       -- Generate code for the condition
-    br exitBlock
-    caseBlock <- getBlock
-    phi double [(trval, caseBlock)]
+-- cgen (S.When clauses) = do
+--     foldM handleClause (head clauses) (tail clauses)
+--
+-- handleClause :: S.Expr -> Codegen AST.Operand
+-- handleClause (S.Clause cond code) = do
+--     caseBlock <- addBlock "case.block"
+--     exitBlock <- addBlock "case.exit"
+--
+--     cond <- cgen cond
+--     test <- fcmp FP.ONE false cond
+--     cbr test caseBlock exitBlock
+--
+--     setBlock caseBlock
+--     trval <- cgen code       -- Generate code for the condition
+--     br exitBlock
+--     caseBlock <- getBlock
+--     phi double [(trval, caseBlock)]
 
 
 -------------------------------------------------------------------------------
