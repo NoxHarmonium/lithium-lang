@@ -2,6 +2,8 @@
 
 module Emit where
 
+import Debug.Trace
+
 import LLVM.General.Module
 import LLVM.General.Context
 
@@ -82,7 +84,10 @@ binops = Map.fromList [
     , ("<", lt)
   ]
 
+-- Example AST
+-- [When [Clause (BinaryOp "<" (Var "x") (Float 3.0)) (Float 1.0),Clause Else (BinaryOp "+" (Call "fib" [BinaryOp "-" (Var "x") (Float 1.0)]) (Call "fib" [BinaryOp "-" (Var "x") (Float 2.0)]))]]
 cgen :: S.Expr -> Codegen AST.Operand
+cgen a | trace ("cgen " ++ show a) False = undefined
 cgen (S.UnaryOp op a) = do
   cgen $ S.Call ("unary" ++ op) [a]
 cgen (S.BinaryOp "=" (S.Var var) val) = do
@@ -102,23 +107,29 @@ cgen (S.Float n) = return $ cons $ C.Float (F.Double n)
 cgen (S.Call fn args) = do
   largs <- mapM cgen args
   call (externf (AST.Name fn)) largs
--- cgen (S.When clauses) = do
---     foldM handleClause (head clauses) (tail clauses)
---
--- handleClause :: S.Expr -> Codegen AST.Operand
--- handleClause (S.Clause cond code) = do
---     caseBlock <- addBlock "case.block"
---     exitBlock <- addBlock "case.exit"
---
---     cond <- cgen cond
---     test <- fcmp FP.ONE false cond
---     cbr test caseBlock exitBlock
---
---     setBlock caseBlock
---     trval <- cgen code       -- Generate code for the condition
---     br exitBlock
---     caseBlock <- getBlock
---     phi double [(trval, caseBlock)]
+cgen (S.When clauses) = do --concatM :: Monad m => [a -> m a] -> a -> m a
+    phis <- mapM processClause clauses
+    phi double phis
+cgen (S.Else) = cgen (S.Float 1) -- Always true
+
+
+
+
+processClause :: S.Expr -> Codegen (AST.Operand, AST.Name)
+processClause (S.Clause cond code) = do
+    caseBlock <- addBlock "case.block"
+    exitBlock <- addBlock "case.exit"
+
+    cond <- cgen cond
+    test <- fcmp FP.ONE false cond
+    cbr test caseBlock exitBlock
+
+    setBlock caseBlock
+    trval <- cgen code       -- Generate code for the condition
+    br exitBlock
+    caseBlock <- getBlock
+
+    return (trval, caseBlock)
 
 
 -------------------------------------------------------------------------------
