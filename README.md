@@ -25,7 +25,7 @@ As I work through existing languages for insperation and ideas I will add notes 
 ### Building
 
 #### Quick Start (OSX and Homebrew)
-Long story short, if you are building on Mac OSX and use Homebrew 
+Long story short, if you are building on Mac OSX and use Homebrew
 as a package manager you will need to do the following things in your terminal.
 
 ```
@@ -49,15 +49,15 @@ stack build
 
 #### Slow Start (OSX and not Homebrew)
 
-If you use a different package manager you will have to modify 
-`extra-lib-dirs` setting in stack.yaml to point to your package managers 
+If you use a different package manager you will have to modify
+`extra-lib-dirs` setting in stack.yaml to point to your package managers
 library directory.
 
 Then you can follow the Quick Start guide.
 
 #### Very Slow Start (Not OSX)
 
-I have not tried this yet so I can't give advice but I assume it will 
+I have not tried this yet so I can't give advice but I assume it will
 work easily on Linux but not at all on Windows.
 
 
@@ -69,15 +69,15 @@ If you get an error message that looks like the following:
 
 ```
 dyld: Library not loaded: @rpath/libffi.dylib
-...   
+...
 Reason: Incompatible library version: LibraryFunction_hsc_make requires version 7.0.0 or later, but libffi.dylib provides version 1.0.0
 ```
 
 This happens because the build process cannot find the libffi library
 that was used to build llvm.
 Modify stack.yaml to point to the directory where the version of libffi
-that your llvm setup is using. With homebrew this is actually tucked 
-away under the `/usr/local/opt/libffi/lib` directory because it is a 
+that your llvm setup is using. With homebrew this is actually tucked
+away under the `/usr/local/opt/libffi/lib` directory because it is a
 'keg only library'.
 
 [Reference](https://github.com/commercialhaskell/stack/issues/1826)
@@ -90,10 +90,10 @@ If you get something like the following:
 unknown symbol `___dso_handle
 ```
 
-or some other linking issue with lots of random characters. It is 
-probably because you need to build llvm-general with the 
+or some other linking issue with lots of random characters. It is
+probably because you need to build llvm-general with the
 `-fenable-shared` flag. I have already handled with by adding an option
-to stack.yaml but I am adding this so that other people don't have to 
+to stack.yaml but I am adding this so that other people don't have to
 go through my pain if it happens to them.
 
 [Reference](https://github.com/bscarlet/llvm-general/issues/85)
