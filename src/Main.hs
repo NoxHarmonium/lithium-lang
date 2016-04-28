@@ -15,12 +15,12 @@ import qualified LLVM.General.AST as AST
 initModule :: AST.Module
 initModule = emptyModule "Lithium"
 
-printAST :: AST.Module -> String -> IO (Maybe AST.Module)
-printAST modo source = do
+printAST :: String -> IO ()
+printAST source = do
   let res = parseToplevel source
   case res of
-    Left err -> print err >> return Nothing
-    Right ex -> print ex >> return Nothing
+    Left err -> print err
+    Right ex -> print ex
 
 
 process :: AST.Module -> String -> IO (Maybe AST.Module)
@@ -35,7 +35,7 @@ process modo source = do
 processFile :: String -> IO (Maybe AST.Module)
 processFile fname = do
     fileContents <- readFile fname
-    printAST initModule fileContents
+    printAST fileContents
     process initModule fileContents
 
 repl :: IO ()
