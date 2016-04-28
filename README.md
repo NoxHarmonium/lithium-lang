@@ -4,6 +4,8 @@ Lithium
 A Highly Reactive Programming Language and Runtime
 --------------------------------------------------
 
+[![Build Status](https://travis-ci.org/NoxHarmonium/lithium-lang.svg?branch=master)](https://travis-ci.org/NoxHarmonium/lithium-lang)
+
 This isn't really a thing,
 it is just me experimenting
 to see if I can create the basic
