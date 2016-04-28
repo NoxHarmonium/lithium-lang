@@ -13,7 +13,7 @@ import System.Console.Haskeline
 import qualified LLVM.General.AST as AST
 
 initModule :: AST.Module
-initModule = emptyModule "my cool jit"
+initModule = emptyModule "Lithium"
 
 printAST :: AST.Module -> String -> IO (Maybe AST.Module)
 printAST modo source = do
