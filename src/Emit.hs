@@ -108,17 +108,16 @@ cgen (S.Call fn args) = do
   largs <- mapM cgen args
   call (externf (AST.Name fn)) largs
 cgen (S.When clauses) = do --concatM :: Monad m => [a -> m a] -> a -> m a
-    phis <- mapM processClause clauses
+    exitBlock <- addBlock "case.exit"
+    phis <- mapM (processClause exitBlock) clauses
+    setBlock exitBlock
     phi double phis
 cgen (S.Else) = cgen (S.Float 1) -- Always true
 
 
-
-
-processClause :: S.Expr -> Codegen (AST.Operand, AST.Name)
-processClause (S.Clause cond code) = do
+processClause :: AST.Name -> S.Expr -> Codegen (AST.Operand, AST.Name)
+processClause exitBlock (S.Clause cond code) = do
     caseBlock <- addBlock "case.block"
-    exitBlock <- addBlock "case.exit"
 
     cond <- cgen cond
     test <- fcmp FP.ONE false cond
