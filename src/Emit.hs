@@ -87,7 +87,7 @@ binops = Map.fromList [
 -- Example AST
 -- [When [Clause (BinaryOp "<" (Var "x") (Float 3.0)) (Float 1.0),Clause Else (BinaryOp "+" (Call "fib" [BinaryOp "-" (Var "x") (Float 1.0)]) (Call "fib" [BinaryOp "-" (Var "x") (Float 2.0)]))]]
 cgen :: S.Expr -> Codegen AST.Operand
-cgen a | trace ("cgen " ++ show a) False = undefined
+--cgen a | trace ("cgen " ++ show a) False = undefined
 cgen (S.UnaryOp op a) = do
   cgen $ S.Call ("unary" ++ op) [a]
 cgen (S.BinaryOp "=" (S.Var var) val) = do
