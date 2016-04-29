@@ -17,6 +17,7 @@ import Data.Int
 import Control.Monad.Except
 import Control.Applicative
 import qualified Data.Map as Map
+import JIT
 
 import Codegen
 import qualified Syntax as S
@@ -139,11 +140,11 @@ liftError :: ExceptT String IO a -> IO a
 liftError = runExceptT >=> either fail return
 
 codegen :: AST.Module -> [S.Expr] -> IO AST.Module
-codegen mod fns = withContext $ \context ->
-  liftError $ withModuleFromAST context newast $ \m -> do
-    llstr <- moduleLLVMAssembly m
-    putStrLn llstr
-    return newast
+codegen mod fns = do
+  res <- runJIT oldast
+  case res  of
+    Right newast -> return newast
+    Left err     -> putStrLn err >> return oldast
   where
     modn    = mapM codegenTop fns
-    newast  = runLLVM mod modn
+    oldast  = runLLVM mod modn
