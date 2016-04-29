@@ -17,10 +17,10 @@ If it actually did evolve into a full language the goals might be something like
 - Reactive programming as a first class concept and built into the language
 - Safe concurrency by default using message passing between objects
 - Strongly functional
-- Stict depedency injection as part of the langauge
-- Compiled rather than intepreted and no VM so it can run on iOS which disallows things like JITing.
+- Strict dependency injection as part of the language
+- Compiled rather than interpreted and no VM so it can run on iOS which disallows things like JITing.
 
-As I work through existing languages for insperation and ideas I will add notes [here](doc/insperation.md).
+As I work through existing languages for inspiration and ideas I will add notes [here](doc/insperation.md).
 
 Acknowledgements
 ----------------
