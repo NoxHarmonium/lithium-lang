@@ -22,6 +22,18 @@ If it actually did evolve into a full language the goals might be something like
 
 As I work through existing languages for insperation and ideas I will add notes [here](doc/insperation.md).
 
+Acknowledgements
+----------------
+
+I'm new to haskell and LLVM so most of the compiler code has been
+blatantly copied and modified from Stephen Diehl's tutorial
+[Implementing a JIT Compiled Language with Haskell and LLVM](http://www.stephendiehl.com/llvm/)
+My plan is to rewrite and make the code more my own as I go along get more
+confident with haskell. Currently I'm pretty lost.
+
+Miran Lipovača's website/book [Learn You A Haskell](http://learnyouahaskell.com/)
+has also been a great help when trying to get my head around haskell.
+
 ### Building
 
 #### Quick Start (OSX and Homebrew)
