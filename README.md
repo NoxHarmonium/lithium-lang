@@ -22,6 +22,24 @@ If it actually did evolve into a full language the goals might be something like
 
 As I work through existing languages for inspiration and ideas I will add notes [here](doc/insperation.md).
 
+Example
+-------
+
+Only basic language constructs have been implemented yet but so far this example compiles successfully.
+
+```
+
+def fib(x:Double):
+  when: (
+    x < 3:  1
+     else:  fib(x - 1) + fib(x - 2)
+  );
+
+def main():
+  fib(9);
+
+```
+
 Acknowledgements
 ----------------
 
@@ -59,7 +77,7 @@ stack build
 
 ```
 
-#### Slow Start (OSX and not Homebrew)
+#### If you are not using Homebrew
 
 If you use a different package manager you will have to modify
 `extra-lib-dirs` setting in stack.yaml to point to your package managers
@@ -67,7 +85,7 @@ library directory.
 
 Then you can follow the Quick Start guide.
 
-#### Very Slow Start (Not OSX)
+#### If you are not using OSX
 
 I have not tried this yet so I can't give advice but I assume it will
 work easily on Linux but not at all on Windows.
