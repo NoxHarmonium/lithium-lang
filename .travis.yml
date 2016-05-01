@@ -23,3 +23,4 @@ install:
 
 script:
   - stack -j 2 build --no-terminal
+  - "stack exec -- llc samples/01_fib.lithium | grep \"Evaluated to: 34.0\"" # Basic sanity test
