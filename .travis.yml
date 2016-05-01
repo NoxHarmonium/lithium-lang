@@ -1,6 +1,7 @@
 language: c
 
-sudo: false
+sudo: required
+dist: trusty
 cache:
   directories:
   - $HOME/.stack/
@@ -8,7 +9,7 @@ cache:
 matrix:
   include:
     - env: CABALVER=1.22 GHCVER=7.10.3 LLVM_CONFIG=llvm-config-3.5
-      addons: {apt: {packages: [cabal-install-1.22,ghc-7.10.3,llvm-3.5-dev,llvm-3.5,libedit-dev,libedit,g++-4.8],sources: [hvr-ghc,llvm-toolchain-precise-3.5,ubuntu-toolchain-r-test,llvm-toolchain-precise]}}
+      addons: {apt: {packages: [cabal-install-1.22,ghc-7.10.3,llvm-3.5-dev,llvm-3.5,libedit-dev,libedit],sources: [hvr-ghc]}}
 
 before_install:
   - mkdir -p ~/.local/bin
@@ -17,7 +18,6 @@ before_install:
   - chmod a+x ~/.local/bin/stack
 
 install:
-  - export CXX="g++-4.8"
   - stack -j 2 setup --no-terminal
   - stack -j 2 build --only-snapshot --no-terminal
 
