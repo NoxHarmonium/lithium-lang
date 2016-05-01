@@ -1,6 +1,10 @@
 # Twilight Programming Language
 
-when: (
- x < 3:  1
- else:  fib(x - 1) + fib(x - 2)
-);
+def fib(x:Double):
+    when: (
+     x < 3:  1
+     else:  fib(x - 1) + fib(x - 2)
+    );
+
+def main():
+    fib(9);

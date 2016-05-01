@@ -18,6 +18,7 @@ import Control.Monad.Except
 import Control.Applicative
 import qualified Data.Map as Map
 import JIT
+import Utils
 
 import Codegen
 import qualified Syntax as S
@@ -108,28 +109,58 @@ cgen (S.Float n) = return $ cons $ C.Float (F.Double n)
 cgen (S.Call fn args) = do
   largs <- mapM cgen args
   call (externf (AST.Name fn)) largs
-cgen (S.When clauses) = do --concatM :: Monad m => [a -> m a] -> a -> m a
+cgen (S.When clauses) = do
+    entryBlock <- entry
     exitBlock <- addBlock "case.exit"
-    phis <- mapM (processClause exitBlock) clauses
+
+    -- Throw error if else clause is zero or greater than 1
+    -- Else should always be last
+    let elseClause = last clauses
+    let otherClauses = reverse (init clauses)
+
+    elsePhi <- processElse exitBlock elseClause
+
+    descendants <- scanM (processClause exitBlock) elsePhi otherClauses
+
+    setBlock entryBlock
+    let firstBlock = snd (last descendants)
+    br firstBlock
+
     setBlock exitBlock
-    phi double phis
-cgen (S.Else) = cgen (S.Float 1) -- Always true
+
+    phi double (map fst descendants)
 
 
-processClause :: AST.Name -> S.Expr -> Codegen (AST.Operand, AST.Name)
-processClause exitBlock (S.Clause cond code) = do
-    caseBlock <- addBlock "case.block"
+processElse :: AST.Name -> S.Expr -> Codegen ((AST.Operand, AST.Name), AST.Name)
+processElse exitBlock (S.Clause S.Else code) = do
+    elseBlock <- addBlock "case.else"
 
+    setBlock elseBlock
+    val <- cgen code
+    br exitBlock
+    elseBlock <- getBlock
+
+    return ((val, elseBlock), elseBlock)
+
+processClause :: AST.Name -> ((AST.Operand, AST.Name), AST.Name) -> S.Expr -> Codegen ((AST.Operand, AST.Name), AST.Name)
+processClause exitBlock nextPhi (S.Clause cond code) = do
+    let nextBlock = snd nextPhi
+
+    caseTestBlock <- addBlock "case.test.block"
+    caseCodeBlock <- addBlock "case.code.block"
+
+    setBlock caseTestBlock
     cond <- cgen cond
     test <- fcmp FP.ONE false cond
-    cbr test caseBlock exitBlock
+    cbr test caseCodeBlock nextBlock
+    caseTestBlock <- getBlock
 
-    setBlock caseBlock
-    trval <- cgen code       -- Generate code for the condition
+    setBlock caseCodeBlock
+    val <- cgen code       -- Generate code for the condition
     br exitBlock
-    caseBlock <- getBlock
+    caseCodeBlock <- getBlock
 
-    return (trval, caseBlock)
+    return ((val, caseCodeBlock), caseTestBlock)
 
 
 -------------------------------------------------------------------------------
