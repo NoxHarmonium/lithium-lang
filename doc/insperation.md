@@ -10,7 +10,6 @@ I will start with languages I know the least and work back to languages I'm fami
 - JavaScript
 - Python
 - C#
-    -
 - Swift
     - Still takes concepts from Objective C such as dynamic dispatch, late binding and extensible programming
     - Compiled
