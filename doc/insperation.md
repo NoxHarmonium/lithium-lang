@@ -206,7 +206,19 @@ I will start with languages I know the least and work back to languages I'm fami
     - Theorem Prover
     - Interesting but no concepts that I want to draw from at this time
 
+### Lanaguages I Just Discovered And Need To Checkout and Categorise
 
+- Ceylon
+- Gosu
+- Fantom
+- FrTime
+- Racket
+- Eta
+- Vala
+- Opa
+- Ur
+- Ada
+- Eiffel
 
 ## List of Type System Characteristics Off Wikipedia With Notes
 
